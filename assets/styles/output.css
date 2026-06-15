@@ -394,27 +394,9 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .duration-200 {
-    --tw-duration: 200ms;
-    transition-duration: 200ms;
-  }
   .duration-300 {
     --tw-duration: 300ms;
     transition-duration: 300ms;
-  }
-  .duration-500 {
-    --tw-duration: 500ms;
-    transition-duration: 500ms;
-  }
-  .duration-900 {
-    --tw-duration: 900ms;
-    transition-duration: 900ms;
-  }
-  .peer-checked\:border {
-    &:is(:where(.peer):checked ~ *) {
-      border-style: var(--tw-border-style);
-      border-width: 1px;
-    }
   }
   .peer-checked\:border-3 {
     &:is(:where(.peer):checked ~ *) {
@@ -422,29 +404,9 @@
       border-width: 3px;
     }
   }
-  .peer-checked\:border-pink-200 {
-    &:is(:where(.peer):checked ~ *) {
-      border-color: var(--color-pink-200);
-    }
-  }
-  .peer-checked\:border-pink-300 {
-    &:is(:where(.peer):checked ~ *) {
-      border-color: var(--color-pink-300);
-    }
-  }
   .peer-checked\:border-pink-400 {
     &:is(:where(.peer):checked ~ *) {
       border-color: var(--color-pink-400);
-    }
-  }
-  .peer-checked\:border-violet-600 {
-    &:is(:where(.peer):checked ~ *) {
-      border-color: var(--color-violet-600);
-    }
-  }
-  .peer-checked\:border-b-pink-200 {
-    &:is(:where(.peer):checked ~ *) {
-      border-bottom-color: var(--color-pink-200);
     }
   }
   .sm\:bg-size-\[auto_300px\] {
@@ -500,6 +462,11 @@
   .lg\:flex-row {
     @media (width >= 64rem) {
       flex-direction: row;
+    }
+  }
+  .lg\:gap-40 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 40);
     }
   }
   .lg\:bg-bottom {

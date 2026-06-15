@@ -1,6 +1,7 @@
 <?php require_once "../_partials/_header.php"; ?>
 <h2 class="aclonica">INSCRIVEZ-VOUS</h2>
-<form action="" method="post" class="flex flex-col items-center gap-8  bg-baume-ivoire rounded-xl p-8">
+
+<form action="../process/utilisateur.php" method="post" class="flex flex-col items-center gap-8  bg-baume-ivoire rounded-xl p-8">
 
     <div class="flex flex-col gap-8 items-center md:p-16 md:flex-row md:flex-wrap md:items-center">
         <div class="flex flex-col tracking-wider">

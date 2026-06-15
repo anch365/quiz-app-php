@@ -35,7 +35,7 @@
             <nav class="flex flex-col gap-4 items-start py-8">
                 <a href="./index.php">Accueil</a>
                 <a href="./quiz.php">Quiz</a>
-                <a href="./connexion.php">Inscription</a>
+                <a href="./utilisateur.php">Inscription</a>
             </nav>
         </div>
 
@@ -43,6 +43,6 @@
         <nav class="hidden lg:flex lg:flex-row gap-8 items-center text-white">
             <a href="./index.php">Accueil</a>
             <a href="./quiz.php">Quiz</a>
-            <a href="./connexion.php">Inscription</a>
+            <a href="./utilisateur.php">Inscription</a>
         </nav>
     </header>

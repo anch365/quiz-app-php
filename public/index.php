@@ -5,18 +5,23 @@
 
         <h1 class="aclonica text-4xl">Bienvenu sur QuizApp</h1>
         <p>Répondez aux questions le plus vite possible pour gagner des points et tenter de terminer en tête du classement. Bonne chance ! 🚀🏆</p>
-        
+
         <nav class="flex flex-col gap-8 md:flex-row">
-            <a href="./login.php"><button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Connexion</button></a>
-            <a href="./connexion.php"><button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Inscrivez-vous</button></a>
+            <a href="./login.php">
+                <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Connexion</button>
+            </a>
+            <a href="./utilisateur.php">
+                <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Inscrivez-vous</button>
+            </a>
         </nav>
     </section>
 
-    <section>
+    <section class="flex flex-col gap-8">
 
         <h2 class="aclonica text-3xl underline">Apprenez en vous amusant</h2>
 
         <div class="flex flex-wrap gap-8 items-center justify-center pt-16">
+            
             <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-améthyste text-white py-8 w-72">
                 <div class="w-16 h-16 bg-white rounded-full overflow-hidden">
                     <img src="../assets/imgs/Q-Variées.jpg" alt="Carte pour les questions variées" class="object-cover">
@@ -46,7 +51,11 @@
                     <p class="font-light">Visionner votre progression en vous connectant</p>
                 </div>
             </div>
+
         </div>
+         <a href="./quiz.php">
+                <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Commencez le Quiz</button>
+            </a>
     </section>
 </main>
 
