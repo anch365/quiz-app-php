@@ -53,7 +53,7 @@
             </div>
 
         </div>
-         <a href="./quiz.php?id=1">
+         <a href="./start_quiz.php">
                 <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Commencez le Quiz</button>
             </a>
     </section>

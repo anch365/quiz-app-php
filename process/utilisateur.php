@@ -43,7 +43,7 @@ $request-> execute([
 // execute() sert à exécuter la requête préparée
 // Entre parenthèse c'est du SQL
 // ETAPE 3 : REDIRIGER SUR UNE PAGE D'AFFICHAGE
-header("Location: ../public/quiz.php");
+header("Location: ../public/profil-player.php");
 exit();
 ?>
 

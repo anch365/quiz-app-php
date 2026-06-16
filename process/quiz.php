@@ -1,5 +1,6 @@
 <?php
 // ETAPE 1 : FAIRE LA SECURITE
+session_start();
 
 // Première étape de sécurité : verifier la méthode
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
@@ -23,7 +24,7 @@ if ((empty($_POST["question_id"]) || empty($_POST["reponse"]))) {
 $question_id = htmlspecialchars(strip_tags(trim($_POST["question_id"])));
 $reponseId = htmlspecialchars(strip_tags(trim($_POST["reponse"])));
 
-// ETAPE 2 : METTRE LES DONNEE DU PATIENT EN BDD (PDO traduit php pour pouvoir communiquer avec la BDD)
+// ETAPE 2 : METTRE LES DONNEE DU PLAYER EN BDD
 require_once "../utils/db_connect.php";
 
 $request = $db->prepare("SELECT * FROM reponse WHERE id = :id");
@@ -38,12 +39,12 @@ $reponse = $request->fetch(PDO::FETCH_ASSOC);
 // die();
 
 // Vérifier que la réponse existe
-
 if (!$reponse) {
     header("Location: ../public/quiz.php?id=" . $question_id . "&error=answer-not-found");
     exit();
 };
 
+// SCORE SESSION
 if ($reponse['est_ce_vrai'] == 1) {
 
     echo "Bonne réponse !";
@@ -53,7 +54,7 @@ if ($reponse['est_ce_vrai'] == 1) {
     echo "Mauvaise réponse !";
 }
 
-// Calcul pour passer à la question suivaante
+// CALCUL POUR PASSER A LA QUESTION SUIVANTE
 $nextQuestion = $question_id + 1;
 
 // Pour afficher le score
@@ -68,30 +69,7 @@ $request->execute([
 
 $question = $request->fetch(PDO::FETCH_ASSOC);
 
-session_start();
-
-if (!isset($_SESSION['score'])) {
-    $_SESSION['score'] = 0;
-}
-
-if ($reponse['est_ce_vrai'] == 1) {
-    $_SESSION['score']++;
-}
-
-$nextQuestion = $question_id + 1;
-
-$request = $db->prepare("
-    SELECT *
-    FROM questionnement
-    WHERE id = :id
-");
-
-$request->execute([
-    ':id' => $nextQuestion
-]);
-
-$question = $request->fetch(PDO::FETCH_ASSOC);
-
+// REDIRECTION
 if ($question) {
 
     header("Location: ../public/quiz.php?id=" . $nextQuestion);
@@ -99,7 +77,7 @@ if ($question) {
 
 } else {
 
-    header("Location: ../public/resultat.php");
+    header("Location: ../public/score.php");
     exit();
 
 }

@@ -70,17 +70,17 @@ require_once "../_partials/_header.php";
 
                         </label>
                     <?php } ?>
+
                     <input
                         type="hidden"
                         name="question_id"
                         value="<?= $question['id'] ?>">
-                    <div>
-                        <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">Envoyez</button>
-                    </div>
-
                 </div>
             </div>
         </section>
+        <div class="pt-16">
+            <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">validez</button>
+        </div>
     </form>
 
 </main>
