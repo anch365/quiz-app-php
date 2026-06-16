@@ -34,7 +34,7 @@
             class="hidden fixed top-16 right-5 w-2/3 text-white bg-mauve-btn text-2xl flex-col justify-center px-8 items-start gap-4 rounded-xl">
             <nav class="flex flex-col gap-4 items-start py-8">
                 <a href="./index.php">Accueil</a>
-                <a href="./quiz.php">Quiz</a>
+                <a href="./quiz.php?id=1">Quiz</a>
                 <a href="./utilisateur.php">Inscription</a>
             </nav>
         </div>
@@ -42,7 +42,7 @@
         <!-- MENU Desktop -->
         <nav class="hidden lg:flex lg:flex-row gap-8 items-center text-white">
             <a href="./index.php">Accueil</a>
-            <a href="./quiz.php">Quiz</a>
+            <a href="./quiz.php?id=1">Quiz</a>
             <a href="./utilisateur.php">Inscription</a>
         </nav>
     </header>

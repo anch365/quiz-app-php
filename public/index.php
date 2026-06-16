@@ -1,7 +1,7 @@
 <?php require_once "../_partials/_header.php"; ?>
 
 <main class="flex flex-col gap-8">
-    <section style="background-image: url('../assets/imgs/Bg-Quiz.jpg')" class="bg-size-[auto_250px] bg-bottom bg-no-repeat flex flex-col gap-8 items-center pb-8 sm:bg-size-[auto_300px] sm:bg-top lg:bg-bottom ">
+    <section style="background-image: url('../assets/imgs/Bg-Quiz.jpg')" class="bg-size-[auto_250px] bg-bottom bg-no-repeat flex flex-col gap-8 items-center pb-8 sm:bg-size-[auto_300px] sm:bg-top">
 
         <h1 class="aclonica text-4xl">Bienvenu sur QuizApp</h1>
         <p>Répondez aux questions le plus vite possible pour gagner des points et tenter de terminer en tête du classement. Bonne chance ! 🚀🏆</p>
@@ -53,7 +53,7 @@
             </div>
 
         </div>
-         <a href="./quiz.php">
+         <a href="./quiz.php?id=1">
                 <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">Commencez le Quiz</button>
             </a>
     </section>

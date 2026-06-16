@@ -1,63 +1,87 @@
 <?php
-require_once "../_partials/_header.php"
+require_once "../utils/db_connect.php";
+
+// Sécuriser l'Id
+if ($_SERVER['REQUEST_METHOD'] !== "GET") {
+    header("Location: ./quiz.php?error=bad-method");
+    exit();
+}
+
+// Deuxieme étape de sécurité : verifier que la colonne voulue existe bien
+if (!isset($_GET["id"])) {
+    header("Location: ./quiz.php?error=missing-value");
+    exit();
+}
+
+// Troisième étape de sécurité : verifier que la colonne voulue n'est pas vide
+if (empty($_GET["id"])) {
+    header("Location: ./quiz.php?error=value-empty");
+    exit();
+}
+
+// Quatrième étape
+$id = htmlspecialchars(strip_tags(trim($_GET["id"])));
+
+// Requête
+$request = $db->prepare("SELECT * FROM questionnement WHERE id = :id");
+$request->execute([
+    ':id' => $id
+]);
+
+$question = $request->fetch(PDO::FETCH_ASSOC);
+
+$request = $db->prepare("SELECT * FROM reponse WHERE question_id = :id");
+$request->execute([
+    ':id' => $id
+]);
+
+$reponses = $request->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+<?php
+require_once "../_partials/_header.php";
+?>
+
 <main>
-    <section class="flex flex-col gap-8 items-center">
+    <form action="../process/quiz.php" method="POST">
+        <section class="flex flex-col gap-8 items-center">
 
-        <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
-            <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
-                <div class="bg-white overflow-hidden">
-                    [ IMAGE]
+            <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
+                <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
+                    <div class="bg-white overflow-hidden">
+                        <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
+                    </div>
+                    <div class="flex flex-col gap-8 px-6 py-8">
+                        <p class="font-light tracking-wider"><?= $question['question'] ?></p>
+                    </div>
                 </div>
-                <div class="flex flex-col gap-8 px-6 py-8">
-                    <p class="font-light tracking-wider">Quelle est la capitale de la France ?</p>
+
+                <div class="aclonica text-white flex flex-col gap-8 w-full">
+
+                    <?php foreach ($reponses as $reponse) { ?>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="reponse" class="peer hidden" value="<?= $reponse['id'] ?>">
+
+                            <div
+                                class="bg-améthyste rounded-xl py-4 border transition-all duration-20 peer-checked:border-pink-400 peer-checked:border-3">
+                                <?= $reponse['reponse'] ?>
+                            </div>
+
+                        </label>
+                    <?php } ?>
+                    <input
+                        type="hidden"
+                        name="question_id"
+                        value="<?= $question['id'] ?>">
+                    <div>
+                        <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">Envoyez</button>
+                    </div>
+
                 </div>
             </div>
-
-            <div class="aclonica text-white flex flex-col gap-8 w-full">
-
-                <label class="cursor-pointer">
-                    <input type="radio" name="answer" class="peer hidden">
-
-                    <div
-                        class="bg-améthyste rounded-xl py-4 border transition-all duration-300 peer-checked:border-pink-400 peer-checked:border-3">
-                        Paris
-                    </div>
-                </label>
-
-                <label class="cursor-pointer">
-                    <input type="radio" name="answer" class="peer hidden">
-
-                    <div
-                        class="bg-améthyste rounded-xl py-4 border transition-all duration-300 peer-checked:border-pink-400 peer-checked:border-3">
-                        Londres
-                    </div>
-                </label>
-
-                <label class="cursor-pointer">
-                    <input type="radio" name="answer" class="peer hidden">
-
-                    <div
-                        class="bg-améthyste rounded-xl py-4 border transition-all duration-300 peer-checked:border-pink-400 peer-checked:border-3">
-                        Rome
-                    </div>
-                </label>
-
-                <label class="cursor-pointer">
-                    <input type="radio" name="answer" class="peer hidden">
-
-                    <div
-                        class="bg-améthyste rounded-xl py-4 border transition-all duration-300 peer-checked:border-pink-400 peer-checked:border-3">
-                        Madrid
-                    </div>
-                </label>
-                <div>
-                    <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">Envoyez</button>
-                </div>
-
-            </div>
-        </div>
-    </section>
+        </section>
+    </form>
 
 </main>
 
