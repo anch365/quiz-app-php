@@ -6,7 +6,7 @@ require_once "../utils/quizStarted.php";
 
 // Sécuriser l'Id
 if ($_SERVER['REQUEST_METHOD'] !== "GET") {
-    
+
     header("Location: ./quiz.php?error=bad-method");
     exit();
 }

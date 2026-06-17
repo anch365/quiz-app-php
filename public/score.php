@@ -3,8 +3,6 @@ require_once "../utils/isConnected.php";
 
 session_start();
 
-
-
 // Sécurité
 if (!isset($_SESSION['score'], $_SESSION['start_time'])) {
     header("Location: ./quiz.php");
@@ -12,7 +10,7 @@ if (!isset($_SESSION['score'], $_SESSION['start_time'])) {
 }
 
 // connexion PDO
-require_once "../db_connect.php";
+require_once "../utils/db_connect.php";
 
 // Données
 $score = $_SESSION['score'];
@@ -26,7 +24,7 @@ $temps_total = $end - $start;
 // Insertion en base
 
 $request = $db->prepare("INSERT INTO score (utilisateur_id, score, temps_total)
-        VALUES (:utilisateur_id, :score, :temps_total");
+        VALUES (:utilisateur_id, :score, :temps_total)");
 $request->execute([
     ":utilisateur_id" => $_COOKIE['user']['id'],
     ":score" => $score,

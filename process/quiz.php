@@ -47,12 +47,11 @@ if (!$reponse) {
 // SCORE SESSION
 if ($reponse['est_ce_vrai'] == 1) {
 
-    echo "Bonne réponse !";
-
+    $_SESSION['quiz']['score']++;   // Incrémenter le score
+    $_SESSION['quiz']['last_result'] = 'Bonne réponse!!!';
 } else {
 
-    echo "Mauvaise réponse !";
-}
+  $_SESSION['quiz']['last_result'] = 'Mauvaise réponse';}
 
 // CALCUL POUR PASSER A LA QUESTION SUIVANTE
 $nextQuestion = $question_id + 1;
@@ -69,16 +68,14 @@ $request->execute([
 
 $question = $request->fetch(PDO::FETCH_ASSOC);
 
+// Màj l'ID de la question suivante AVANT la redirection
+$_SESSION['quiz']['question_id'] = $nextQuestion;
+
 // REDIRECTION
 if ($question) {
-
     header("Location: ../public/quiz.php?id=" . $nextQuestion);
     exit();
-
 } else {
-
     header("Location: ../public/score.php");
     exit();
-
 }
-?>
