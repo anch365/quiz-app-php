@@ -36,6 +36,7 @@
                 <a href="./index.php">Accueil</a>
                 <a href="./start_quiz">Quiz</a>
                 <a href="./utilisateur.php">Inscription</a>
+                <a href="./score.php">Score</a>
             </nav>
         </div>
 
@@ -44,5 +45,6 @@
             <a href="./index.php">Accueil</a>
             <a href="./start_quiz">Quiz</a>
             <a href="./utilisateur.php">Inscription</a>
+            <a href="./score.php">Score</a>
         </nav>
     </header>

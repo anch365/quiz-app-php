@@ -1,26 +1,20 @@
 <?php
-require_once "../utils/db_connect.php";
+require_once "../utils/isConnected.php";
+
+session_start();
+require_once "../utils/quizStarted.php";
 
 // Sécuriser l'Id
 if ($_SERVER['REQUEST_METHOD'] !== "GET") {
+    
     header("Location: ./quiz.php?error=bad-method");
     exit();
 }
 
-// Deuxieme étape de sécurité : verifier que la colonne voulue existe bien
-if (!isset($_GET["id"])) {
-    header("Location: ./quiz.php?error=missing-value");
-    exit();
-}
+// Quatrième étape recuperer l'id de la question à afficher depuis la session
+$id = htmlspecialchars(strip_tags(trim($_SESSION["quiz"]["question_id"])));
 
-// Troisième étape de sécurité : verifier que la colonne voulue n'est pas vide
-if (empty($_GET["id"])) {
-    header("Location: ./quiz.php?error=value-empty");
-    exit();
-}
-
-// Quatrième étape
-$id = htmlspecialchars(strip_tags(trim($_GET["id"])));
+require_once "../utils/db_connect.php";
 
 // Requête
 $request = $db->prepare("SELECT * FROM questionnement WHERE id = :id");
@@ -36,6 +30,8 @@ $request->execute([
 ]);
 
 $reponses = $request->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <?php

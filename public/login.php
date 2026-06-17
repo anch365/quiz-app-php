@@ -1,7 +1,14 @@
+<?php 
+if (isset($_COOKIE["user"])) {
+    header("Location: ./quiz.php");
+    exit();
+}
+?>
+
 <?php require_once "../_partials/_header.php"; ?>
 <h2 class="aclonica">CONNECTEZ-VOUS</h2>
 
-<form action="" method="post" class="flex flex-col items-center gap-8 bg-baume-ivoire rounded-xl p-8">
+<form action="../process/login.php" method="post" class="flex flex-col items-center gap-8 bg-baume-ivoire rounded-xl p-8">
     <div class="flex flex-col gap-8 items-center md:p-16 md:flex-row md:items-center">
         <div class="flex flex-col tracking-wider">
             <label for="mail">Adresse email</label>
