@@ -2,6 +2,12 @@
 // ETAPE 1 : FAIRE LA SECURITE
 session_start();
 
+// Vérifier que le quiz est bien initialisé
+if (!isset($_SESSION['quiz']['question_ids'])) {
+    header("Location: ./start-quiz.php");
+    exit();
+}
+
 // Première étape de sécurité : verifier la méthode
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     header("Location: ../public/quiz.php?error=bad-method");
@@ -53,29 +59,18 @@ if ($reponse['est_ce_vrai'] == 1) {
 
   $_SESSION['quiz']['last_result'] = 'Mauvaise réponse';}
 
-// CALCUL POUR PASSER A LA QUESTION SUIVANTE
-$nextQuestion = $question_id + 1;
+// Passer à la question suivante
+$_SESSION['quiz']['current_index']++;
 
-// Pour afficher le score
-$request = $db->prepare("SELECT *
-    FROM questionnement
-    WHERE id = :id
-");
-
-$request->execute([
-    ':id' => $nextQuestion
-]);
-
-$question = $request->fetch(PDO::FETCH_ASSOC);
-
-// Màj l'ID de la question suivante AVANT la redirection
-$_SESSION['quiz']['question_id'] = $nextQuestion;
-
-// REDIRECTION
-if ($question) {
-    header("Location: ../public/quiz.php?id=" . $nextQuestion);
+// Y a-t-il encore une question ?
+if ($_SESSION['quiz']['current_index'] < count($_SESSION['quiz']['question_ids'])) {
+    // Oui → rediriger vers la question suivante
+   $nextId = $_SESSION['quiz']['question_ids'][$_SESSION['quiz']['current_index']];
+    $_SESSION['quiz']['question_id'] = $nextId;
+    header("Location: ../public/quiz.php");
     exit();
 } else {
+    // Non → quiz terminé
     header("Location: ../public/score.php");
     exit();
 }

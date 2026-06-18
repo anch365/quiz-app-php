@@ -1,6 +1,9 @@
 <?php 
 session_start();
-if (isset($_SESSION['user']))
+if (isset($_SESSION['user'])) {
+    header("Location: ./quiz.php");
+    exit();
+}
 ?>
 
 <?php require_once "../_partials/_header.php"; ?>

@@ -1,54 +1,42 @@
 <?php
 require_once "../utils/isConnected.php";
-
-session_start();
+require_once "../utils/db_connect.php";
 
 // Vérification
-if (!isset($_SESSION['quiz']['score'],$_SESSION['quiz']['start_time'])) {
+if (!isset($_SESSION['quiz']['score'], $_SESSION['quiz']['start_time'])) {
     header("Location: ./quiz.php");
     exit();
 }
 
-// connexion PDO
-require_once "../utils/db_connect.php";
-
-// Récupération
-$user = json_decode($_COOKIE['user'], true);
+// Données
 $score = $_SESSION['quiz']['score'];
-
-$start =$_SESSION['quiz']['start_time'];
+$start = $_SESSION['quiz']['start_time'];
 $end = time();
-
-// Temps total en secondes
 $temps_total = $end - $start;
 
 // Insertion en base
-
 $request = $db->prepare("INSERT INTO score (utilisateur_id, score, temps_total)
         VALUES (:utilisateur_id, :score, :temps_total)");
 $request->execute([
-    ":utilisateur_id" =>  $_SESSION['user']['id'],
+    ":utilisateur_id" => $_SESSION['user']['id'],
     ":score" => $score,
     ":temps_total" => $temps_total
 ]);
-
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Résultat</title>
-</head>
-<body>
+<?php require_once "../_partials/_header.php"; ?>
 
-<h1> Résultat du quiz</h1>
+<main class="flex flex-col gap-8 items-center">
+    <h1 class="aclonica text-3xl">🏁 Résultat du quiz</h1>
 
-<p>Ton score : <strong><?= $score ?></strong></p>
+    <div class="bg-baume-ivoire rounded-xl p-8 flex flex-col gap-4 items-center">
+        <p class="text-xl">Ton score : <strong class="text-2xl"><?= $score ?></strong></p>
+        <p>Temps total : <strong><?= $temps_total ?> secondes</strong></p>
+    </div>
 
-<p>Temps total : <strong><?= $temps_total ?> secondes</strong></p>
+    <a href="../process/reset-quiz.php">
+        <button class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 cursor-pointer">🔄 Refaire le quiz</button>
+    </a>
+</main>
 
-<a href="../process/reset-quiz.php">Refaire le quiz</a>
-
-</body>
-</html>
+<?php require_once "../_partials/_footer.php"; ?>

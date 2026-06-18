@@ -1,7 +1,6 @@
 <?php
 require_once "../utils/isConnected.php";
 
-session_start();
 require_once "../utils/quizStarted.php";
 
 // Sécuriser l'Id
@@ -12,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
 }
 
 // Quatrième étape recuperer l'id de la question à afficher depuis la session
-$id = htmlspecialchars(strip_tags(trim($_SESSION["quiz"]["question_id"])));
-
-require_once "../utils/db_connect.php";
+$currentIndex = $_SESSION['quiz']['current_index'];
+$id = $_SESSION['quiz']['question_ids'][$currentIndex];
 
 // Requête
+require_once "../utils/db_connect.php";
 $request = $db->prepare("SELECT * FROM questionnement WHERE id = :id");
 $request->execute([
     ':id' => $id
@@ -39,41 +38,47 @@ require_once "../_partials/_header.php";
 ?>
 
 <main>
-    <form action="../process/quiz.php" method="POST">
+    <form action="../process/quiz.php" method="POST" id="quizForm"
+        data-bonne-reponse="<?= $reponses[array_search(1, array_column($reponses, 'est_ce_vrai'))]['id'] ?>">
         <section class="flex flex-col gap-8 items-center">
 
-            <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
-                <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
-                    <div class="bg-white overflow-hidden">
-                        <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
-                    </div>
-                    <div class="flex flex-col gap-8 px-6 py-8">
-                        <p class="font-light tracking-wider"><?= $question['question'] ?></p>
-                    </div>
+        <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
+            <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
+                <div class="bg-white overflow-hidden">
+                    <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
                 </div>
-
-                <div class="aclonica text-white flex flex-col gap-8 w-full">
-
-                    <?php foreach ($reponses as $reponse) { ?>
-
-                        <label class="cursor-pointer">
-                            <input type="radio" name="reponse" class="peer hidden" value="<?= $reponse['id'] ?>">
-
-                            <div
-                                class="bg-améthyste rounded-xl py-4 border transition-all duration-20 peer-checked:border-pink-400 peer-checked:border-3">
-                                <?= $reponse['reponse'] ?>
-                            </div>
-
-                        </label>
-                    <?php } ?>
-
-                    <input
-                        type="hidden"
-                        name="question_id"
-                        value="<?= $question['id'] ?>">
+                <div class="flex flex-col gap-8 px-6 py-8">
+                    <p class="font-light tracking-wider"><?= $question['question'] ?></p>
                 </div>
             </div>
+
+            <div class="aclonica text-white flex flex-col gap-8 w-full">
+
+                <?php foreach ($reponses as $reponse) { ?>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="reponse" class="peer hidden" value="<?= $reponse['id'] ?>">
+
+                        <div
+                            class="bg-améthyste rounded-xl py-4 border transition-all duration-20 peer-checked:border-pink-400 peer-checked:border-3">
+                            <?= $reponse['reponse'] ?>
+                        </div>
+
+                    </label>
+                <?php } ?>
+
+                <input
+                    type="hidden"
+                    name="question_id"
+                    value="<?= $question['id'] ?>">
+            </div>
+        </div>
         </section>
+
+        <div class="flex gap-4 items-center pt-8">
+            <span class="text-2xl font-bold" id="timer">15</span>
+            <span class="text-sm">secondes restantes</span>
+        </div>
         <div class="pt-16">
             <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">validez</button>
         </div>
