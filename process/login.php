@@ -45,8 +45,15 @@ if (!password_verify($motdepasse, $user['mot_de_passe'])) {
     exit();
 }
 
-setcookie("user", json_encode($user), time() + 7 * 24 * 60 * 60, "/Quiz_App");
+// Démarrer la session
+session_start();
 
+// Stocker l'utilisateur EN SESSION (sans le mot de passe !)
+$_SESSION['user'] = [
+    'id' => $user['id'],
+    'pseudo' => $user['pseudo'],
+    'email' => $user['email']
+];
 
 // if (!password_verify($motdepasse, $passwordHashe)) {
 //   # code...

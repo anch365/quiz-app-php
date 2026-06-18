@@ -3,8 +3,8 @@ require_once "../utils/isConnected.php";
 
 session_start();
 
-// Sécurité
-if (!isset($_SESSION['score'], $_SESSION['start_time'])) {
+// Vérification
+if (!isset($_SESSION['quiz']['score'],$_SESSION['quiz']['start_time'])) {
     header("Location: ./quiz.php");
     exit();
 }
@@ -12,10 +12,11 @@ if (!isset($_SESSION['score'], $_SESSION['start_time'])) {
 // connexion PDO
 require_once "../utils/db_connect.php";
 
-// Données
-$score = $_SESSION['score'];
+// Récupération
+$user = json_decode($_COOKIE['user'], true);
+$score = $_SESSION['quiz']['score'];
 
-$start = $_SESSION['start_time'];
+$start =$_SESSION['quiz']['start_time'];
 $end = time();
 
 // Temps total en secondes
@@ -26,12 +27,10 @@ $temps_total = $end - $start;
 $request = $db->prepare("INSERT INTO score (utilisateur_id, score, temps_total)
         VALUES (:utilisateur_id, :score, :temps_total)");
 $request->execute([
-    ":utilisateur_id" => $_COOKIE['user']['id'],
+    ":utilisateur_id" =>  $_SESSION['user']['id'],
     ":score" => $score,
     ":temps_total" => $temps_total
 ]);
-
-
 
 ?>
 

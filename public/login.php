@@ -1,8 +1,6 @@
 <?php 
-if (isset($_COOKIE["user"])) {
-    header("Location: ./quiz.php");
-    exit();
-}
+session_start();
+if (isset($_SESSION['user']))
 ?>
 
 <?php require_once "../_partials/_header.php"; ?>

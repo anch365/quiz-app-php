@@ -1,5 +1,3 @@
 <?php
-if (!isset($_COOKIE['user']) || empty($_COOKIE['user'])) {
-    header("Location: ../public/login.php");
-    exit();
-}
+session_start();
+if (!isset($_SESSION['user']) || empty($_SESSION['user']))
