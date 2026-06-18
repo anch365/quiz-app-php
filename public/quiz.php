@@ -10,7 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
     exit();
 }
 
-// Quatrième étape recuperer l'id de la question à afficher depuis la session
+// Vérifier que l'index est valide
+if ($_SESSION['quiz']['current_index'] >= count($_SESSION['quiz']['question_ids'])) {
+    header("Location: ../public/score.php");
+    exit();
+}
+
 $currentIndex = $_SESSION['quiz']['current_index'];
 $id = $_SESSION['quiz']['question_ids'][$currentIndex];
 
@@ -30,6 +35,14 @@ $request->execute([
 
 $reponses = $request->fetchAll(PDO::FETCH_ASSOC);
 
+// Trouver l'ID de la bonne réponse
+$bonneReponseId = null;
+foreach ($reponses as $rep) {
+    if ($rep['est_ce_vrai'] == 1) {
+        $bonneReponseId = $rep['id'];
+        break;
+    }
+}
 
 ?>
 
@@ -39,48 +52,49 @@ require_once "../_partials/_header.php";
 
 <main>
     <form action="../process/quiz.php" method="POST" id="quizForm"
-        data-bonne-reponse="<?= $reponses[array_search(1, array_column($reponses, 'est_ce_vrai'))]['id'] ?>">
+        data-bonne-reponse="<?= $bonneReponseId ?>">
+
         <section class="flex flex-col gap-8 items-center">
 
-        <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
-            <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
-                <div class="bg-white overflow-hidden">
-                    <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
+            <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
+                <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
+                    <div class="bg-white overflow-hidden">
+                        <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
+                    </div>
+                    <div class="flex flex-col gap-8 px-6 py-8">
+                        <p class="font-light tracking-wider"><?= $question['question'] ?></p>
+                    </div>
                 </div>
-                <div class="flex flex-col gap-8 px-6 py-8">
-                    <p class="font-light tracking-wider"><?= $question['question'] ?></p>
+
+                <div class="aclonica text-white flex flex-col gap-8 w-full">
+
+                    <?php foreach ($reponses as $reponse) { ?>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="reponse" class="peer hidden" value="<?= $reponse['id'] ?>">
+
+                            <div
+                                class="bg-améthyste rounded-xl py-4 border transition-all duration-20 peer-checked:border-pink-400 peer-checked:border-3">
+                                <?= $reponse['reponse'] ?>
+                            </div>
+
+                        </label>
+                    <?php } ?>
+
+                    <input
+                        type="hidden"
+                        name="question_id"
+                        value="<?= $question['id'] ?>">
                 </div>
             </div>
-
-            <div class="aclonica text-white flex flex-col gap-8 w-full">
-
-                <?php foreach ($reponses as $reponse) { ?>
-
-                    <label class="cursor-pointer">
-                        <input type="radio" name="reponse" class="peer hidden" value="<?= $reponse['id'] ?>">
-
-                        <div
-                            class="bg-améthyste rounded-xl py-4 border transition-all duration-20 peer-checked:border-pink-400 peer-checked:border-3">
-                            <?= $reponse['reponse'] ?>
-                        </div>
-
-                    </label>
-                <?php } ?>
-
-                <input
-                    type="hidden"
-                    name="question_id"
-                    value="<?= $question['id'] ?>">
-            </div>
-        </div>
         </section>
 
-        <div class="flex gap-4 items-center pt-8">
+        <div class="flex gap-4 items-center pt-8 bg-mauve-btn rounded-full">
             <span class="text-2xl font-bold" id="timer">15</span>
             <span class="text-sm">secondes restantes</span>
         </div>
         <div class="pt-16">
-            <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri">validez</button>
+            <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri" disabled>validez</button>
         </div>
     </form>
 

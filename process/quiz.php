@@ -1,6 +1,9 @@
 <?php
-// ETAPE 1 : FAIRE LA SECURITE
+
+require_once "../utils/isConnected.php";
+
 session_start();
+require_once "../utils/quizStarted.php";
 
 // Vérifier que le quiz est bien initialisé
 if (!isset($_SESSION['quiz']['question_ids'])) {
@@ -24,6 +27,12 @@ if (!isset($_POST["question_id"]) || !isset($_POST["reponse"])) {
 if ((empty($_POST["question_id"]) || empty($_POST["reponse"]))) {
     header("Location: ../public/quiz.php?error=value-empty");
     exit();
+}
+// Si pas de réponse = timeout = 0 point
+if (!isset($_POST["reponse"]) || empty($_POST["reponse"])) {
+    $_SESSION['quiz']['last_result'] = 'Temps écoulé !';
+    // On saute directement au passage à la question suivante
+    $aTimeout = true;
 }
 
 // Quatrième étape de sécurité : on empêche l'utilisation de balise (par exemple script)
@@ -51,26 +60,15 @@ if (!$reponse) {
 };
 
 // SCORE SESSION
-if ($reponse['est_ce_vrai'] == 1) {
-
-    $_SESSION['quiz']['score']++;   // Incrémenter le score
-    $_SESSION['quiz']['last_result'] = 'Bonne réponse!!!';
-} else {
-
-  $_SESSION['quiz']['last_result'] = 'Mauvaise réponse';}
-
-// Passer à la question suivante
-$_SESSION['quiz']['current_index']++;
-
-// Y a-t-il encore une question ?
-if ($_SESSION['quiz']['current_index'] < count($_SESSION['quiz']['question_ids'])) {
-    // Oui → rediriger vers la question suivante
-   $nextId = $_SESSION['quiz']['question_ids'][$_SESSION['quiz']['current_index']];
-    $_SESSION['quiz']['question_id'] = $nextId;
-    header("Location: ../public/quiz.php");
-    exit();
-} else {
-    // Non → quiz terminé
-    header("Location: ../public/score.php");
-    exit();
+if (!isset($aTimeout)) {
+    if ($reponse['est_ce_vrai'] == 1) {
+        $_SESSION['quiz']['score']++;
+        $_SESSION['quiz']['last_result'] = 'Bonne réponse !';
+    } else {
+        $_SESSION['quiz']['last_result'] = 'Mauvaise réponse';
+    }
 }
+
+
+header("Location: ./next-question.php");
+exit();

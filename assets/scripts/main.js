@@ -18,17 +18,45 @@ function handleClickFond() {
   fondSombre.classList.add("hidden");
 }
 
-let departSeconde = 5
-let temps = departSeconde * 60
+// ========== RÉCUPÉRER LES ÉLÉMENTS ==========
+const form = document.getElementById('quizForm');
+const timerSpan = document.getElementById('timer');
+const boutonValider = document.querySelector('#quizForm button[type="submit"]');
+const reponseInputs = document.querySelectorAll('input[name="reponse"]');
 
-const timerElement = document.getElementById("timer")
+// ========== TIMER ==========
+let tempsRestant = 15;
+let timerInterval = null;
+let aRepondu = false;
 
-setInterval(() => {
-  let secondes = parseInt(temps % 60, 10)
+function demarrerTimer() {
+    timerInterval = setInterval(function () {
+        tempsRestant--;
+        timerSpan.textContent = tempsRestant;
 
-  minutes = minutes < 10 ? "0" + minutes : minutes
-  secondes = secondes < 10 ? "0" + secondes : secondes
+        if (tempsRestant <= 5) {
+            timerSpan.style.color = '#ef4444';
+        }
 
-  timerElement.innerText = `${minutes}:${secondes}`
-  temps = temps <= 0 ? 0 : temps - 1
-}, 1000)
+        if (tempsRestant <= 0) {
+            clearInterval(timerInterval);
+            form.action = "../process/next-question.php";
+            form.submit();
+        }
+    }, 1000);
+}
+
+// ========== ACTIVER LE BOUTON AU CLIC ==========
+reponseInputs.forEach(function (input) {
+    input.addEventListener('change', function () {
+        if (aRepondu) return;
+        aRepondu = true;
+
+        // Activer le bouton
+        boutonValider.disabled = false;
+        boutonValider.classList.remove('opacity-50', 'cursor-not-allowed');
+    });
+});
+
+// ========== LANCER ==========
+demarrerTimer();
