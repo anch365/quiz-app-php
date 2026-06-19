@@ -34,7 +34,7 @@ if (form) {
   // ========== TIMER ==========
   let tempsRestant = 15;
   let timerInterval = null;
-  let aRepondu = false;
+  let aValide = false;
 
   function demarrerTimer() {
     timerInterval = setInterval(function () {
@@ -56,19 +56,10 @@ if (form) {
   // ========== ACTIVER LE BOUTON AU CLIC ==========
   reponseInputs.forEach(function (input) {
     input.addEventListener("change", function () {
-      if (aRepondu) return;
-      aRepondu = true;
+      if (aValide) return;
+      aValide = true;
 
       // Activer le bouton
-      boutonValider.disabled = false;
-      boutonValider.classList.remove("opacity-50", "cursor-not-allowed");
-    });
-  });
-
-  // ========== ACTIVER LE BOUTON AU CLIC ==========
-  reponseInputs.forEach(function (input) {
-    input.addEventListener("change", function () {
-      if (aValide) return;
       boutonValider.disabled = false;
       boutonValider.classList.remove("opacity-50", "cursor-not-allowed");
     });

@@ -76,6 +76,10 @@ require_once "../_partials/_header.php";
                 </div>
 
                 <div class="aclonica text-white flex flex-col gap-8 w-full">
+                    <div class="flex gap-4 items-center p-4 bg-mauve-btn rounded-2xl">
+                        <span class="text-2xl font-bold" id="timer">15</span>
+                        <span class="text-sm">secondes restantes</span>
+                    </div>
 
                     <?php foreach ($reponses as $reponse) { ?>
 
@@ -96,16 +100,15 @@ require_once "../_partials/_header.php";
                         value="<?= $question['id'] ?>">
                 </div>
             </div>
-        </section>
 
-        <div class="flex gap-4 items-center p-4 bg-mauve-btn rounded-full">
-            <span class="text-2xl font-bold" id="timer">15</span>
-            <span class="text-sm">secondes restantes</span>
-        </div>
-        <div class="pt-16">
-            <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri" disabled>validez</button>
-        </div>
-        <div id="feedbackZone" class="hidden text-center mt-4 p-4 rounded-xl text-lg font-bold"></div>
+
+
+            <div class="pt-8">
+                <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri" disabled>validez</button>
+            </div>
+            <div id="feedbackZone" class="hidden text-center mt-4 p-4 rounded-xl text-lg font-bold"></div>
+
+        </section>
     </form>
 
 </main>

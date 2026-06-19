@@ -1,8 +1,6 @@
 <?php
 
 require_once "../utils/isConnected.php";
-
-session_start();
 require_once "../utils/quizStarted.php";
 
 // Vérifier que le quiz est bien initialisé
