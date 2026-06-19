@@ -57,7 +57,6 @@ foreach ($reponses as $rep) {
 <?php
 require_once "../_partials/_header.php";
 ?>
-
 <main>
     <form action="../process/quiz.php" method="POST" id="quizForm"
         data-bonne-reponse="<?= $bonneReponseId ?>"
@@ -100,17 +99,13 @@ require_once "../_partials/_header.php";
                         value="<?= $question['id'] ?>">
                 </div>
             </div>
-
-
+            <div id="feedbackZone" class="hidden aclonica text-center mt-4 p-4 rounded-xl text-lg font-bold"></div>
 
             <div class="pt-8">
                 <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri" disabled>validez</button>
             </div>
-            <div id="feedbackZone" class="hidden text-center mt-4 p-4 rounded-xl text-lg font-bold"></div>
-
         </section>
     </form>
-
 </main>
 
 <?php

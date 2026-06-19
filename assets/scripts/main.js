@@ -23,9 +23,7 @@ const form = document.getElementById("quizForm");
 
 if (form) {
   const timerSpan = document.getElementById("timer");
-  const boutonValider = document.querySelector(
-    '#quizForm button[type="submit"]',
-  );
+  const boutonValider = form.querySelector('button[type="submit"]');
   const reponseInputs = document.querySelectorAll('input[name="reponse"]');
   const feedbackZone = document.getElementById("feedbackZone");
   const bonneReponseId = form.dataset.bonneReponse;
@@ -34,7 +32,8 @@ if (form) {
   // ========== TIMER ==========
   let tempsRestant = 15;
   let timerInterval = null;
-  let aValide = false;
+  let aValide = false; // Le joueur a-t-il choisi une réponse ?
+  let aChoisi = false; // Le feedback a-t-il déjà été affiché ?
 
   function demarrerTimer() {
     timerInterval = setInterval(function () {
@@ -56,12 +55,14 @@ if (form) {
   // ========== ACTIVER LE BOUTON AU CLIC ==========
   reponseInputs.forEach(function (input) {
     input.addEventListener("change", function () {
-      if (aValide) return;
-      aValide = true;
+      if (aChoisi) return;
+      aChoisi = true;
 
       // Activer le bouton
       boutonValider.disabled = false;
       boutonValider.classList.remove("opacity-50", "cursor-not-allowed");
+      boutonValider.style.opacity = "1";
+      boutonValider.style.cursor = "pointer";
     });
   });
 
@@ -72,12 +73,11 @@ if (form) {
     aValide = true;
     clearInterval(timerInterval);
 
-    // Désactiver tout
+    // Empêcher de re-cliquer SANS désactiver (sinon la valeur n'est pas envoyée)
     reponseInputs.forEach(function (r) {
-      r.disabled = true;
+      r.style.pointerEvents = "none";
     });
-    boutonValider.disabled = true;
-
+    
     // Trouver la réponse choisie
     let reponseChoisie = null;
     reponseInputs.forEach(function (r) {
@@ -86,13 +86,14 @@ if (form) {
 
     // Afficher le feedback
     feedbackZone.classList.remove("hidden");
+    feedbackZone.style.display = "block";
 
     if (reponseChoisie === bonneReponseId) {
       feedbackZone.className =
         "block text-center mt-4 p-4 rounded-xl text-lg font-bold";
       feedbackZone.style.backgroundColor = "#dcfce7";
       feedbackZone.style.color = "#166534";
-      feedbackZone.textContent = "✅ Correct !";
+      feedbackZone.textContent = "✅ C'est la bonne réponse!";
     } else {
       feedbackZone.className =
         "block text-center mt-4 p-4 rounded-xl text-lg font-bold";
