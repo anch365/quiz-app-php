@@ -44,6 +44,14 @@ foreach ($reponses as $rep) {
     }
 }
 
+// Récupérer aussi le TEXTE de la bonne réponse
+$bonneReponseTexte = '';
+foreach ($reponses as $rep) {
+    if ($rep['id'] == $bonneReponseId) {
+        $bonneReponseTexte = $rep['reponse'];
+        break;
+    }
+}
 ?>
 
 <?php
@@ -52,7 +60,8 @@ require_once "../_partials/_header.php";
 
 <main>
     <form action="../process/quiz.php" method="POST" id="quizForm"
-        data-bonne-reponse="<?= $bonneReponseId ?>">
+        data-bonne-reponse="<?= $bonneReponseId ?>"
+        data-bon-texte="<?= htmlspecialchars($bonneReponseTexte) ?>">
 
         <section class="flex flex-col gap-8 items-center">
 
@@ -89,13 +98,14 @@ require_once "../_partials/_header.php";
             </div>
         </section>
 
-        <div class="flex gap-4 items-center pt-8 bg-mauve-btn rounded-full">
+        <div class="flex gap-4 items-center p-4 bg-mauve-btn rounded-full">
             <span class="text-2xl font-bold" id="timer">15</span>
             <span class="text-sm">secondes restantes</span>
         </div>
         <div class="pt-16">
             <button type="submit" class="bg-mauve-btn font-bold rounded-full w-fit py-2 px-8 text-black gayathri" disabled>validez</button>
         </div>
+        <div id="feedbackZone" class="hidden text-center mt-4 p-4 rounded-xl text-lg font-bold"></div>
     </form>
 
 </main>
