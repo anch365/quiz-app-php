@@ -67,16 +67,17 @@ require_once "../_partials/_header.php";
             <div class="flex flex-col items-center gap-8 md:flex-row md:gap-32">
                 <div class="flex flex-col items-center rounded-2xl overflow-hidden bg-baume-ivoire text-black py-8">
                     <div class="bg-white overflow-hidden">
-                        <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question">
+                        <img src="../assets/imgs/<?= $question['emplacement_image'] ?>" alt="Une image respective pour chaque question" class="w-64 h-48 object-cover md:w-96">
                     </div>
                     <div class="flex flex-col gap-8 px-6 py-8">
                         <p class="font-light tracking-wider"><?= $question['question'] ?></p>
                     </div>
                 </div>
 
-                <div class="aclonica text-white flex flex-col gap-8 w-full">
-                    <div class="flex gap-4 items-center p-4 bg-mauve-btn rounded-2xl">
-                        <span class="text-2xl font-bold" id="timer">15</span>
+                <div class="aclonica text-white flex flex-col gap-8 w-full md:w-auto md:gap-4">
+
+                    <div class="flex gap-4 items-center p-3 bg-mauve-btn rounded-xl">
+                        <span class="text-xl font-bold" id="timer">15</span>
                         <span class="text-sm">secondes restantes</span>
                     </div>
 

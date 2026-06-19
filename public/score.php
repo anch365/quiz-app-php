@@ -41,7 +41,7 @@ unset($_SESSION['quiz']);
             <p>Temps total : <strong><?= $temps_total ?> secondes</strong></p>
         </div>
         <!-- Graphique -->
-        <div class="flex items-end gap-8 w-full justify-center">
+        <div class="flex items-end gap-8 w-full justify-center lg:flex-row lg:gap-32">
             <div class="flex flex-col items-center gap-1">
                 <span class="font-bold text-green-600"><?= $score ?></span>
                 <div class="w-16 bg-green-500 rounded-t-lg" style="height: <?= $pourcentage * 1.2 ?>px"></div>

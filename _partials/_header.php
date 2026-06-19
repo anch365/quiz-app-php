@@ -19,7 +19,7 @@
 
 <body class="max-h-screen flex flex-col gap-8 pt-32 px-8 gayathri items-center text-center md:px-24 ">
     <header class="flex flex-row fixed top-0 right-0 left-0 bg-mauve-btn justify-between px-8">
-       <a href="../public/index.php"><img src="../assets/imgs/logo-QuizApp.png" alt="Logo du QuizApp" class="w-14 h-14 my-1 rounded-full"></a> 
+        <a href="../public/index.php"><img src="../assets/imgs/logo-QuizApp.png" alt="Logo du QuizApp" class="w-14 h-14 my-1 rounded-full"></a>
 
         <!-- MENU burger -->
         <img src="../assets/imgs/menu.png" alt="Menu burger pour les options" class="h-16 lg:hidden" id="menuburger">
@@ -37,6 +37,7 @@
                 <a href="../process/start-quiz.php">Quiz</a>
                 <a href="./utilisateur.php">Inscription</a>
                 <a href="./score.php">Score</a>
+                <a href="./classement.php">Classement</a>
             </nav>
         </div>
 
@@ -46,5 +47,6 @@
             <a href="../process/start-quiz.php">Quiz</a>
             <a href="./utilisateur.php">Inscription</a>
             <a href="./score.php">Score</a>
+            <a href="./classement.php">Classement</a>
         </nav>
     </header>
